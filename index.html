@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tic Tac Toe</title>
+
+	<style type="text/css">
+
+		#container {
+
+			float: left;
+			margin-left: 50px;
+			margin-top: 50px;
+		}
+		 .row div {
+		 	display: inline-block;
+
+		 	width: 100px;
+		 	height: 100px;
+		 	margin: 0px;
+		 	padding: 0px;
+
+		 	text-align: center;
+		 }
+
+		 .row {
+		 	padding: 0px;
+		 	margin: 0px;
+		 	display: inline-block;
+		 }
+
+		 #firstRow {
+		 	border-bottom: 1px black solid;
+		 }
+
+		 #secondRow {
+		 	border-bottom: 1px black solid;
+		 }
+
+		 #firstRow div:nth-child(1), #firstRow div:nth-child(2), #secondRow div:nth-child(1), #secondRow div:nth-child(2), #thirdRow div:nth-child(1), #thirdRow div:nth-child(2) {
+		 	border-right: 1px black solid;
+		 }
+
+		 div p {
+		 	text-transform: uppercase;
+		 	font-size: 50px;
+		 	text-align: center;
+		 	margin: 0px;
+
+		 	position: relative;
+		 	top: 50%;
+		 	left: 50%;
+		 	transform: translate(-50%, -50%);
+
+		 	color: white;s
+		 }
+
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="firstRow" class="row">
+			<div onclick="move(this, 1)"><p>-</p></div>
+			<div onclick="move(this, 2)"><p>-</p></div>
+			<div onclick="move(this, 3)"><p>-</p></div>
+		</div>
+		<br>
+		<div id="secondRow" class="row">
+			<div onclick="move(this, 4)"><p>-</p></div>
+			<div onclick="move(this, 5)"><p>-</p></div>
+			<div onclick="move(this, 6)"><p>-</p></div>
+		</div>
+		<br>
+		<div id="thirdRow" class="row">
+			<div onclick="move(this, 7)"><p>-</p></div>
+			<div onclick="move(this, 8)"><p>-</p></div>
+			<div onclick="move(this, 9)"><p>-</p></div>
+		</div>
+	</div>
+
+	<p id="scoreX"></p>
+	<p id="scoreC"></p>
+	<button onclick="reset()">Next round</button>
+
+	<script type="text/javascript">
+		counter = 0;
+		possible_wins = [[1,2,3], [3,6,9], [7,8,9], [1,4,7], [1,5,9], [3,5,7], [4,5,6], [2,5,8]];
+		console.log(possible_wins[2].length)
+		score = [0, 0];
+		circle = []
+		x = []
+
+		document.querySelector("#scoreX").innerHTML = "X: " + score[0];
+		document.querySelector("#scoreC").innerHTML = "Circle: " + score[1];
+		function move(a, b) {
+			if (counter < 9) {
+				if (counter % 2 == 0) {
+					a.firstElementChild.innerHTML = "x";
+					a.firstElementChild.style.color = "black";
+					counter++;
+					x.push(b)
+					
+					for (var i = 0; i < possible_wins.length; i++) {
+						countX = 0
+						for (var j = 0; j < x.length; j++) {
+							for (var k = 0; k < possible_wins[i].length; k++) {
+								if (x[j] == possible_wins[i][k]) {
+									countX++;
+								}
+							}
+						}
+						if (countX == 3) {
+							counter += 10;
+							console.log("X WON");
+							score[0]++;
+							document.querySelector("#scoreX").innerHTML = "X: " + score[0];
+						}
+					}
+					
+				} else {
+					a.firstElementChild.innerHTML = "o";
+					a.firstElementChild.style.color = "black";
+					counter++;
+					circle.push(b)
+
+					for (var i = 0; i < possible_wins.length; i++) {
+						countC = 0;
+						for (var j = 0; j < circle.length; j++) {
+							for (var k = 0; k < possible_wins[i].length; k++) {
+								if (circle[j] == possible_wins[i][k]) {
+									countC++;
+								}
+							}
+						}
+						if (countC == 3) {
+							counter += 10;
+							console.log("Circle WON");
+							score[1]++;
+							document.querySelector("#scoreC").innerHTML = "Circle: " + score[1];
+						}
+					}
+				}
+			}
+		}
+
+		function reset() {
+			counter = 0;
+			selection = document.querySelectorAll("div p");
+			circle = [];
+			x = [];
+			for (var i = 0; i < selection.length; i++) {
+				selection[i].style.color = "white";
+				selection[i].innerHTML = "-";
+			}
+		}
+	</script>
+</body>
+</html>
